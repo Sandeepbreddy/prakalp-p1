@@ -17,7 +17,6 @@ node {
             }
         }
         stage('Build'){
-            steps{
                 sh 'dotnet build --configuration Release ${WORKSPACE}/prakalp-p1-api/prakalp-p1-api.csproj'
                 echo 'Build successfully'
             
