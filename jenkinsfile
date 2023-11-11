@@ -14,7 +14,7 @@ node {
             
                 sh 'dotnet restore ${WORKSPACE}/prakalp-p1-api/prakalp-p1-api.csproj'
                 echo 'restored successfully'
-            }
+            
         }
         stage('Build'){
                 sh 'dotnet build --configuration Release ${WORKSPACE}/prakalp-p1-api/prakalp-p1-api.csproj'
