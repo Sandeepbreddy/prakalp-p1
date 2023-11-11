@@ -1,5 +1,5 @@
 node {
-    stages {
+
         stage ('Clean workspace') {
             steps {
                 cleanWs()
@@ -28,5 +28,4 @@ node {
                 echo 'Publish successfully'
             }
         }
-    }
 }
