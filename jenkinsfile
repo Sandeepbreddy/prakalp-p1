@@ -31,14 +31,14 @@ node {
             
         }
         stage('Docker Build'){
-            echo '${BUILDNUMBER}'
-            sh 'docker build -t sandeepboda/prakalp-p1:$BUILDNUMBER .'
+            echo '$BUILD_NUMBER'
+            sh 'docker build -t sandeepboda/prakalp-p1:$BUILD_NUMBER .'
         }
         stage('Docker Login'){
             sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
         }
         stage('Docker Push'){
-            sh 'docker push sandeepboda/prakalp-p1:$BUILDNUMBER'
+            sh 'docker push sandeepboda/prakalp-p1:$BUILD_NUMBER'
         }
         post{
             always{
