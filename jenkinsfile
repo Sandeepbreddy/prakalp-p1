@@ -4,31 +4,10 @@ node {
     }
 
         stage ('Clean workspace') {
-            
                 cleanWs()
-            
         }
         stage('Git Pull') {
-         
                 git branch: 'main', credentialsId: '4eff6a6f-14ec-4220-8090-34782a2458e7', url: 'https://github.com/Sandeepbreddy/prakalp-p1.git'
-            
-        }
-        stage('Restore'){
-            
-                sh 'dotnet restore ${WORKSPACE}/prakalp-p1-api/prakalp-p1-api.csproj'
-                echo 'restored successfully'
-            
-        }
-        stage('Build'){
-                sh 'dotnet build --configuration Release ${WORKSPACE}/prakalp-p1-api/prakalp-p1-api.csproj'
-                echo 'Build successfully'
-            
-        }
-        stage('Publish'){
-            
-                sh 'dotnet publish --configuration Release ${WORKSPACE}/prakalp-p1-api/prakalp-p1-api.csproj'
-                echo 'Publish successfully'
-            
         }
         stage('Docker Build'){
             echo '$BUILD_NUMBER'
