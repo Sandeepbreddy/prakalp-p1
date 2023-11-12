@@ -1,28 +1,39 @@
-node {
+pipeline {
+    agent any
     environment{
         DOCKERHUB_CREDENTIALS = credentials('sboda-dockerhub')
     }
-
+    stages{
         stage ('Clean workspace') {
+            steps{
                 cleanWs()
-        }
-        stage('Git Pull') {
-                git branch: 'main', credentialsId: '4eff6a6f-14ec-4220-8090-34782a2458e7', url: 'https://github.com/Sandeepbreddy/prakalp-p1.git'
-        }
-        stage('Docker Build'){
-            echo '$BUILD_NUMBER'
-            sh 'docker build -t sandeepboda/prakalp-p1:$BUILD_NUMBER .'
-        }
-        stage('Docker Login'){
-            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        }
-        stage('Docker Push'){
-            sh 'docker push sandeepboda/prakalp-p1:$BUILD_NUMBER'
-        }
-        post{
-            always{
-                sh 'docker logout'
             }
         }
-        
+        stage('Git Pull') {
+            steps{
+                git branch: 'main', credentialsId: '4eff6a6f-14ec-4220-8090-34782a2458e7', url: 'https://github.com/Sandeepbreddy/prakalp-p1.git'
+            }
+        }
+        stage('Docker Build'){
+            steps{
+            echo "${BUILD_NUMBER}"
+            sh 'docker build -t sandeepboda/prakalp-p1:$BUILD_NUMBER .'
+            }
+        }
+        stage('Docker Login'){
+            steps{
+            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        stage('Docker Push'){
+            steps{
+            sh 'docker push sandeepboda/prakalp-p1:$BUILD_NUMBER'
+            }
+        }
+    }
+    post{
+        always{
+            sh 'docker logout'
+        }
+    }    
 }
