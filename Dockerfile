@@ -3,6 +3,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /source
 COPY . .
+RUN dir -s
 RUN dotnet restore "./prakalp-p1/prakalp-p1-api.csproj" --disable-parallel
 RUN dotnet publish "./prakalp-p1/prakalp-p1-api.csproj" -c release -o /app --no-restore
 
