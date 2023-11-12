@@ -1,4 +1,7 @@
 node {
+    environment{
+        DOCKERHUB_CREDENTIALS = credentials('sboda-dockerhub')
+    }
 
         stage ('Clean workspace') {
             
@@ -23,8 +26,24 @@ node {
         }
         stage('Publish'){
             
-                sh 'dotnet publish ${WORKSPACE}/prakalp-p1-api/prakalp-p1-api.csproj'
+                sh 'dotnet publish --configuration Release ${WORKSPACE}/prakalp-p1-api/prakalp-p1-api.csproj'
                 echo 'Publish successfully'
             
         }
+        stage('Docker Build'){
+            echo '${BUILDNUMBER}'
+            sh 'docker build -t sandeepboda/prakalp-p1:$BUILDNUMBER .'
+        }
+        stage('Docker Login'){
+            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        }
+        stage('Docker Push'){
+            sh 'docker push sandeepboda/prakalp-p1:$BUILDNUMBER'
+        }
+        post{
+            always{
+                sh 'docker logout'
+            }
+        }
+        
 }
